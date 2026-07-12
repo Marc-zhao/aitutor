@@ -21,22 +21,56 @@
 // 所以换成了 OpenAlex。话题讨论模块仍然用智谱的网页搜索（更适合新闻/
 // 时事这类讨论场景）。
 
-const ZHIPU_API_KEY = 'e3dde6a442de4bb391893f85e2f4d9c2.UwUGULxW14eJ72I2';
+const ZHIPU_API_KEY = process.env.ZHIPU_API_KEY;
 const ZHIPU_SEARCH_URL = 'https://open.bigmodel.cn/api/paas/v4/web_search';
 const ZHIPU_CHAT_URL = 'https://open.bigmodel.cn/api/paas/v4/chat/completions';
 const OPENALEX_URL = 'https://api.openalex.org/works';
+const SUPABASE_URL = process.env.SUPABASE_URL || 'https://aydeoadbsytyqrcsgzxo.supabase.co';
+const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF5ZGVvYWRic3l0eXFyY3NnenhvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc3Mjc1ODUsImV4cCI6MjA5MzMwMzU4NX0.NR_QshJ7S2rjEhy6QGgrU7_RQKwJ03t6AD8MUygZEQw';
 // OpenAlex API key — free account, 100,000 credits/day, registered at
 // openalex.org/settings/api. Required since 2026-02-13; without a valid
 // key, requests are capped at 100 credits/day and fail with 409 once
 // exhausted (see the comment block above for the production incident
 // this caused before the key was added).
-const OPENALEX_API_KEY = 'Svwq3bYX8XWv2s4XpBuikp';
+const OPENALEX_API_KEY = process.env.OPENALEX_API_KEY;
 
 const CORS = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'POST, OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type',
+  'Access-Control-Allow-Headers': 'Content-Type, Authorization',
 };
+
+async function consumeQuota(req, limit) {
+  const authorization = req.headers.authorization || '';
+  if (!/^Bearer\s+\S+$/i.test(authorization)) {
+    return { ok: false, status: 401, error: 'Please sign in before using AI' };
+  }
+  try {
+    const response = await fetch(`${SUPABASE_URL}/rest/v1/rpc/consume_ai_quota`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': SUPABASE_ANON_KEY,
+        'Authorization': authorization,
+      },
+      body: JSON.stringify({ p_limit: limit }),
+    });
+    if (response.status === 401 || response.status === 403) {
+      return { ok: false, status: 401, error: 'Your session has expired. Please sign in again.' };
+    }
+    if (!response.ok) {
+      console.error('[ai-quota] HTTP', response.status, (await response.text()).slice(0, 200));
+      return { ok: false, status: 503, error: 'AI quota service is temporarily unavailable' };
+    }
+    const allowed = await response.json();
+    return allowed === true
+      ? { ok: true }
+      : { ok: false, status: 429, error: 'AI usage limit reached. Please try again next hour.' };
+  } catch (error) {
+    console.error('[ai-quota] Error:', error.message);
+    return { ok: false, status: 503, error: 'AI quota service is temporarily unavailable' };
+  }
+}
 
 // OpenAlex's search index is effectively English-only — its ranking
 // is built on English academic vocabulary, so a raw natural-language query
@@ -156,7 +190,7 @@ async function doZhipuSearch(query, timeoutMs) {
 // require a valid api_key (see OPENALEX_API_KEY above) — without one,
 // requests are capped at 100 credits/day and fail with 409 once exhausted.
 async function doOpenAlexSearch(query, timeoutMs) {
-  if (timeoutMs <= 500) return [];
+  if (!OPENALEX_API_KEY || timeoutMs <= 500) return [];
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), timeoutMs);
   try {
@@ -248,14 +282,20 @@ function shouldSearchThisTurn(module, webSearchFlag, lastUserText, priorAiText) 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
+  if (!ZHIPU_API_KEY) return res.status(503).json({ error: 'AI search is not configured' });
 
   const body = req.body;
   const { messages, webSearch, image, module } = body || {};
-  if (!messages) return res.status(400).json({ error: 'Missing messages' });
+  if (!Array.isArray(messages) || !messages.length) return res.status(400).json({ error: 'Missing messages' });
+  if (messages.length > 24 || JSON.stringify(body).length > 120000) {
+    return res.status(413).json({ error: 'Request is too large' });
+  }
+  const quota = await consumeQuota(req, 120);
+  if (!quota.ok) return res.status(quota.status).json({ error: quota.error });
 
   const lastUserIdx = messages.map(m => m.role).lastIndexOf('user');
   const lastUserText = (typeof messages[lastUserIdx]?.content === 'string' ? messages[lastUserIdx].content : '') || '';
