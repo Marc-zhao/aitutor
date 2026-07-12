@@ -21,7 +21,7 @@
 // 所以换成了 OpenAlex。话题讨论模块仍然用智谱的网页搜索（更适合新闻/
 // 时事这类讨论场景）。
 
-const ZHIPU_API_KEY = process.env.ZHIPU_API_KEY;
+const ZHIPU_API_KEY = process.env.ZHIPU_API_KEY || process.env.Zhipu;
 const ZHIPU_SEARCH_URL = 'https://open.bigmodel.cn/api/paas/v4/web_search';
 const ZHIPU_CHAT_URL = 'https://open.bigmodel.cn/api/paas/v4/chat/completions';
 const OPENALEX_URL = 'https://api.openalex.org/works';

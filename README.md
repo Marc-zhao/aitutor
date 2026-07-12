@@ -13,7 +13,8 @@ Production Socratic AI tutor and teacher dashboard.
 ## Deploy
 
 1. Apply both SQL files in `supabase/migrations/` in filename order.
-2. Add `ZHIPU_API_KEY` to the Vercel project for all environments.
+2. Add `ZHIPU_API_KEY` to the Vercel project for all environments. Existing
+   deployments using the `Zhipu` variable name are also supported.
 3. Add `OPENALEX_API_KEY` when academic evidence search is required.
 4. Run `node guardrail-regression.test.js`.
 5. Deploy this directory and verify student chat, search, assignments, and the

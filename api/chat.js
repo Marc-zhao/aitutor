@@ -13,7 +13,7 @@
 // attached in `searchResults` — so this function only ever does ONE network
 // call (the Zhipu chat completion) and comfortably fits in 10s.
 
-const ZHIPU_API_KEY = process.env.ZHIPU_API_KEY;
+const ZHIPU_API_KEY = process.env.ZHIPU_API_KEY || process.env.Zhipu;
 const ZHIPU_CHAT_URL = 'https://open.bigmodel.cn/api/paas/v4/chat/completions';
 const SUPABASE_URL = process.env.SUPABASE_URL || 'https://aydeoadbsytyqrcsgzxo.supabase.co';
 const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF5ZGVvYWRic3l0eXFyY3NnenhvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc3Mjc1ODUsImV4cCI6MjA5MzMwMzU4NX0.NR_QshJ7S2rjEhy6QGgrU7_RQKwJ03t6AD8MUygZEQw';
