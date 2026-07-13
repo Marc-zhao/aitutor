@@ -319,7 +319,13 @@ input[type="file"]{display:none;}
 /* ── Mobile (≤640px) ── */
 @media (max-width: 640px) {
   /* Landing */
-  .land-nav { padding: 0 16px; height: 52px; }
+  .land-nav { padding: 0 10px; height: 52px; gap: 8px; }
+  .land-logo { font-size: 14px; white-space: nowrap; }
+  .land-nav-r { gap: 5px; }
+  .land-nav-r > .icon-btn { display: none; }
+  .land-nav-r .lang-opt { padding: 4px 6px; font-size: 10px; }
+  .land-nav-r .btn-ghost,
+  .land-nav-r .btn-gold { padding: 7px 10px; font-size: 11px; white-space: nowrap; }
   .land-hero { padding: 36px 16px 28px; }
   .land-h1 { font-size: 26px; letter-spacing: -.5px; }
   .land-sub { font-size: 14px; }
