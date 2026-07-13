@@ -49,7 +49,7 @@ html[data-theme="light"] ::selection{background:rgba(63,99,160,.25);}
 /* ── LANDING ── */
 #s-landing{overflow-y:auto;}
 .land-nav{height:56px;display:flex;align-items:center;padding:0 48px;border-bottom:1px solid var(--bd);background:var(--sf);flex-shrink:0;gap:16px;}
-.land-logo{font-size:16px;font-weight:600;letter-spacing:-.3px;}
+.land-logo{font-size:16px;font-weight:600;letter-spacing:0;}
 .land-logo span{color:var(--gold);}
 .land-nav-r{margin-left:auto;display:flex;align-items:center;gap:10px;}
 .btn-ghost{padding:7px 18px;border:1px solid var(--bd2);border-radius:var(--rs);background:transparent;color:var(--mu);font-size:13px;cursor:pointer;font-family:inherit;transition:all .15s;}
@@ -58,7 +58,7 @@ html[data-theme="light"] ::selection{background:rgba(63,99,160,.25);}
 .btn-gold:hover{background:#b8943e;}
 .land-hero{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 24px 64px;}
 .land-badge{font-size:11px;font-weight:500;letter-spacing:1px;text-transform:uppercase;color:var(--gold);background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.25);padding:5px 14px;border-radius:20px;margin-bottom:28px;}
-.land-h1{font-size:48px;font-weight:600;letter-spacing:-1px;line-height:1.15;margin-bottom:20px;max-width:700px;}
+.land-h1{font-size:48px;font-weight:600;letter-spacing:0;line-height:1.15;margin-bottom:20px;max-width:700px;}
 .land-h1 span{color:var(--gold);}
 .land-sub{font-size:17px;color:var(--mu);max-width:520px;line-height:1.7;margin-bottom:40px;}
 .land-ctas{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
@@ -73,7 +73,7 @@ html[data-theme="light"] ::selection{background:rgba(63,99,160,.25);}
 .feat-d{font-size:13px;color:var(--mu);line-height:1.7;}
 .land-how{padding:64px 48px;max-width:1100px;margin:0 auto;width:100%;}
 .section-eyebrow{font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--gold);margin-bottom:10px;}
-.section-h2{font-size:28px;font-weight:600;letter-spacing:-.5px;margin-bottom:40px;}
+.section-h2{font-size:28px;font-weight:600;letter-spacing:0;margin-bottom:40px;}
 .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;}
 .step{display:flex;flex-direction:column;gap:10px;}
 .step-n{width:32px;height:32px;border-radius:50%;background:rgba(108,142,191,.15);color:var(--ac);font-size:13px;font-weight:600;display:flex;align-items:center;justify-content:center;border:1px solid rgba(108,142,191,.3);}
@@ -91,7 +91,7 @@ hr.land-hr{border:none;border-top:1px solid var(--bd);margin:0 48px;}
 .auth-card{width:400px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:40px 36px;position:relative;}
 .auth-back{position:absolute;top:16px;left:16px;background:transparent;border:none;color:var(--mu);cursor:pointer;font-size:12px;display:flex;align-items:center;gap:4px;padding:4px 8px;border-radius:var(--rs);transition:all .15s;}
 .auth-back:hover{background:var(--sf2);color:var(--tx);}
-.auth-logo{font-size:22px;font-weight:600;margin-bottom:6px;letter-spacing:-.4px;}
+.auth-logo{font-size:22px;font-weight:600;margin-bottom:6px;letter-spacing:0;}
 .auth-logo span{color:var(--gold);}
 .auth-tagline{font-size:13px;color:var(--mu);margin-bottom:28px;}
 .auth-tabs{display:flex;border-bottom:1px solid var(--bd);margin-bottom:22px;}
@@ -111,7 +111,7 @@ hr.land-hr{border:none;border-top:1px solid var(--bd);margin:0 48px;}
 /* ── MAIN APP ── */
 #s-app{overflow:hidden;}
 .topbar{height:48px;background:var(--sf);border-bottom:1px solid var(--bd);display:flex;align-items:center;padding:0 16px;gap:12px;flex-shrink:0;}
-.tb-logo{font-size:15px;font-weight:600;letter-spacing:-.3px;white-space:nowrap;}
+.tb-logo{font-size:15px;font-weight:600;letter-spacing:0;white-space:nowrap;}
 .tb-logo span{color:var(--gold);}
 .tb-div{width:1px;height:18px;background:var(--bd);flex-shrink:0;}
 .tb-user{font-size:12px;color:var(--mu);}
@@ -229,7 +229,7 @@ input[type="file"]{display:none;}
 .stats4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;}
 .stat-box{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:16px 18px;}
 .stat-lbl{font-size:10px;text-transform:uppercase;letter-spacing:.8px;color:var(--mu);margin-bottom:8px;font-weight:500;}
-.stat-val{font-size:26px;font-weight:600;letter-spacing:-.5px;}
+.stat-val{font-size:26px;font-weight:600;letter-spacing:0;}
 .stat-sub{font-size:11px;color:var(--su);margin-top:3px;}
 .insight-box{background:var(--sf);border:1px solid var(--bd);border-left:3px solid var(--gold);border-radius:var(--r);padding:16px 18px;margin-bottom:20px;}
 .insight-lbl{font-size:10px;text-transform:uppercase;letter-spacing:.8px;color:var(--gold);font-weight:600;margin-bottom:8px;}
@@ -454,6 +454,10 @@ input[type="file"]{display:none;}
   .t-tab { font-size: 11px; padding: 7px 10px; }
 }
 
+:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+@supports(height:100dvh){.screen{height:100dvh}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+
 </style>
 </head>
 <body>
@@ -578,7 +582,7 @@ input[type="file"]{display:none;}
 <!-- ══════════════ STUDENT: CLASS SELECTION ══════════════ -->
 <div id="s-class-select" class="screen" style="align-items:center;justify-content:center;background:var(--bg);">
   <div style="width:520px;max-width:96vw;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:36px 32px;">
-    <div style="font-size:20px;font-weight:600;margin-bottom:6px;letter-spacing:-.4px;">Marc's <span style="color:var(--gold);">AI</span> Tutor</div>
+    <div style="font-size:20px;font-weight:600;margin-bottom:6px;letter-spacing:0;">Marc's <span style="color:var(--gold);">AI</span> Tutor</div>
     <div style="font-size:13px;color:var(--mu);margin-bottom:24px;" data-i="select_class_sub">Welcome! Please select your class to continue.</div>
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
       <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.8px;color:var(--mu);" data-i="select_class_lbl">Select your class</div>
@@ -593,7 +597,7 @@ input[type="file"]{display:none;}
 <!-- ══════════════ STUDENT: ONE-TIME LEVEL SELF-ASSESSMENT ══════════════ -->
 <div id="s-level-assess" class="screen" style="align-items:center;justify-content:center;background:var(--bg);">
   <div style="width:520px;max-width:96vw;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:36px 32px;">
-    <div style="font-size:20px;font-weight:600;margin-bottom:6px;letter-spacing:-.4px;">Marc's <span style="color:var(--gold);">AI</span> Tutor</div>
+    <div style="font-size:20px;font-weight:600;margin-bottom:6px;letter-spacing:0;">Marc's <span style="color:var(--gold);">AI</span> Tutor</div>
     <div style="font-size:13px;color:var(--mu);margin-bottom:24px;" data-i="level_assess_sub">Last step — this helps the AI tutor match your level. You can change this later in your profile.</div>
     <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.8px;color:var(--mu);margin-bottom:10px;" data-i="level_assess_lbl">How would you describe your English level?</div>
     <div id="level-assess-list" style="display:flex;flex-direction:column;gap:8px;">
@@ -618,7 +622,7 @@ input[type="file"]{display:none;}
 <!-- ══════════════ TEACHER: ONBOARDING ══════════════ -->
 <div id="s-teacher-onboard" class="screen" style="align-items:center;justify-content:center;background:var(--bg);">
   <div style="width:560px;max-width:96vw;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:40px 36px;">
-    <div style="font-size:22px;font-weight:600;margin-bottom:6px;letter-spacing:-.4px;">Marc's <span style="color:var(--gold);">AI</span> Tutor</div>
+    <div style="font-size:22px;font-weight:600;margin-bottom:6px;letter-spacing:0;">Marc's <span style="color:var(--gold);">AI</span> Tutor</div>
     <div style="font-size:13px;color:var(--mu);margin-bottom:28px;" data-i="teacher_onboard_sub">Set up your classes before you begin.</div>
 
     <div class="onboard-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px;">
@@ -817,7 +821,7 @@ input[type="file"]{display:none;}
     <div id="teacher-panel" style="display:none;" class="teacher-area">
       <!-- back to student view button -->
       <div style="margin-bottom:16px;display:flex;align-items:center;gap:12px;">
-        <div style="font-size:18px;font-weight:600;letter-spacing:-.3px;" data-i="teacher_dashboard">Teacher Dashboard</div>
+        <div style="font-size:18px;font-weight:600;letter-spacing:0;" data-i="teacher_dashboard">Teacher Dashboard</div>
       </div>
       <div class="t-tabs">
         <button class="t-tab active" onclick="tTab(this,'t-ov')" data-i="ttab_overview">Overview</button>
@@ -1101,8 +1105,6 @@ input[type="file"]{display:none;}
 // ══════════════════════════════
 const SUPABASE_URL      = 'https://aydeoadbsytyqrcsgzxo.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF5ZGVvYWRic3l0eXFyY3NnenhvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc3Mjc1ODUsImV4cCI6MjA5MzMwMzU4NX0.NR_QshJ7S2rjEhy6QGgrU7_RQKwJ03t6AD8MUygZEQw';
-const MINIMAX_API_KEY   = 'sk-cp-4HqqfXmiPJ4VkN2K645mENVnjLVE96EM-qQN-soNwi2lR-Bl3BMEf7AKd-yIgSuSzSJ3z2vspKLW08qo-Lt8Tr3-4huwexpQ0NV-PkVZykf5oBWzrrF3XCY';
-
 let sb;
 try { sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY); }
 catch(e) { console.error('Supabase init failed:', e); }
@@ -1721,6 +1723,12 @@ let lastUploadedImage=null; // most recent image dataUrl - kept for the conversa
 let newConvRequestToken=0; // guards against overlapping newConversation()/openConv() calls racing each other
 let inviteData=null;
 
+async function apiHeaders(){
+  const{data:{session}}=await sb.auth.getSession();
+  if(!session?.access_token) throw new Error(lang==='zh'?'登录已过期，请重新登录。':'Your session has expired. Please sign in again.');
+  return {'Content-Type':'application/json','Authorization':'Bearer '+session.access_token};
+}
+
 // ══════════════════════════════
 // THEME (light/dark)
 // ══════════════════════════════
@@ -1853,21 +1861,12 @@ async function onInviteInput(){
   inviteData=null;
   if(code.length<4){hint.textContent='';cf.style.display='none';return;}
   if(!sb)return;
-  // Note: invite_codes are checked during registration (user not yet logged in)
-  // We use a direct REST call with anon key to bypass auth requirement
+  // Validate through a security-definer RPC so invite rows cannot be listed.
   let data=null;
   try{
-    const url=SUPABASE_URL+'/rest/v1/invite_codes?code=eq.'+encodeURIComponent(code)+'&is_active=eq.true&select=*&limit=1';
-    const res=await fetch(url,{
-      method:'GET',
-      headers:{
-        'apikey':SUPABASE_ANON_KEY,
-        'Authorization':'Bearer '+SUPABASE_ANON_KEY,
-        'Content-Type':'application/json'
-      }
-    });
-    if(!res.ok){console.warn('Invite fetch status:',res.status);data=null;}
-    else{const arr=await res.json();data=arr&&arr.length?arr[0]:null;}
+    const{data:rows,error}=await sb.rpc('validate_ai_invite',{p_code:code,p_role:selectedRole});
+    if(error) console.warn('Invite validation:',error.message);
+    data=rows&&rows.length?rows[0]:null;
   }catch(e){console.error('Invite fetch error:',e);data=null;}
   if(!data){hint.style.color='#f87171';hint.textContent=T[lang].invite_invalid;cf.style.display='none';return;}
   // Check role matches what user selected
@@ -1886,8 +1885,7 @@ async function onInviteInput(){
     let cname='';
     if(data.class_id){
       // Invite code is bound to a specific class
-      const{data:cls}=await sb.from('classes').select('name').eq('id',data.class_id).single();
-      cname=cls?.name||'';
+      cname=data.class_name||'';
       hint.style.color='var(--gr)';
       hint.textContent='✓ '+(T[lang].invite_student||'Student code verified. Class:')+' '+cname;
       document.getElementById('class-display').textContent=cname;
@@ -1921,11 +1919,13 @@ async function doRegister(){
   if(pass.length<8)return showAuthMsg(lang==='zh'?'密码至少8位。':'Password must be at least 8 characters.','error');
   if(!inviteData)return showAuthMsg(T[lang].invite_invalid,'error');
   const role=inviteData.role;
-  const classId=inviteData.class_id||null;
   const{data,error}=await sb.auth.signUp({email,password:pass,options:{data:{full_name:name,role}}});
   if(error)return showAuthMsg(error.message,'error');
-  await sb.from('profiles').upsert({id:data.user.id,full_name:name,role,class_id:classId,name_changed:false});
-  await sb.from('invite_codes').update({used_by:data.user.id,used_at:new Date().toISOString(),is_active:false}).eq('code',inviteCode);
+  const{data:registered,error:registrationError}=await sb.rpc('complete_ai_registration',{p_code:inviteCode,p_name:name});
+  if(registrationError||!registered?.length){
+    await sb.auth.signOut();
+    return showAuthMsg(lang==='zh'?'邀请码注册失败，请重新输入邀请码。':'Invite registration failed. Please try the code again.','error');
+  }
   showAuthMsg(lang==='zh'?'账号创建成功！请登录。':'Account created! You can now sign in.','success');
   switchAuthTab('login');
 }
@@ -1935,7 +1935,7 @@ async function doSignOut(){await sb.auth.signOut();location.reload();}
 async function loadUser(user){
   currentUser=user;
   const{data:p}=await sb.from('profiles').select('*').eq('id',user.id).single();
-  currentRole=p?.role||user.user_metadata?.role||'student';
+  currentRole=p?.role||'student';
   const name=p?.full_name||user.email;
   document.getElementById('tb-user').textContent=p?.full_name||user.email;
   // Store name_locked status
@@ -2104,18 +2104,8 @@ async function confirmClassSelection(){
   const{error:upErr}=await sb.from('profiles').update({class_id:selectedClassId}).eq('id',currentUser.id);
   if(upErr){
     console.error('Update class_id error:',upErr);
-    // Try upsert as fallback
-    const{error:upsErr}=await sb.from('profiles').upsert({
-      id:currentUser.id,
-      class_id:selectedClassId,
-      role:'student',
-      full_name:document.getElementById('tb-user').textContent||currentUser.email
-    });
-    if(upsErr){
-      console.error('Upsert class_id error:',upsErr);
-      if(msg){msg.textContent=(lang==='zh'?'保存失败：':'Save failed: ')+upsErr.message;msg.style.display='block';}
-      return;
-    }
+    if(msg){msg.textContent=(lang==='zh'?'保存失败：':'Save failed: ')+upErr.message;msg.style.display='block';}
+    return;
   }
   // Verify it saved
   const{data:check}=await sb.from('profiles').select('class_id,level').eq('id',currentUser.id).single();
@@ -2647,7 +2637,7 @@ async function saveMessages(){
   if(messages.length>=6 && messages.length%6===0){
     try{
       const recentText=messages.slice(-6).map(m=>(m.role==='user'?'Student: ':'Tutor: ')+(m.content||'').slice(0,80)).join('\n');
-      const r=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},
+      const r=await fetch('/api/chat',{method:'POST',headers:await apiHeaders(),
         body:JSON.stringify({messages:[
           {role:'system',content:'Generate a short conversation title (max 40 chars, no quotes) that summarises what the student is learning. Language: Chinese if mostly Chinese, English if mostly English.'},
           {role:'user',content:recentText}
@@ -2676,7 +2666,7 @@ async function updateLearningSummary(){
     const prompt=lang==='zh'
       ?`这是该学生之前的学习摘要（可能为空）：\n"${prevSummary}"\n\n这是该学生最近一段对话节选（模块：${mod.zh.label}）：\n${recentText}\n\n请更新这位学生的学习摘要：保留之前摘要里仍然重要的信息，加入这段对话里新发现的：常见错误类型、薄弱知识点、进步的地方。控制在100字以内，写成连贯的一段话，不要分点，不要客套话，直接描述学生情况，供AI老师后续参考。`
       :`Here is this student's previous learning summary (may be empty):\n"${prevSummary}"\n\nHere is a recent excerpt from their conversation (module: ${mod.en.label}):\n${recentText}\n\nUpdate this student's learning summary: keep what's still relevant from before, and add anything newly observed (recurring mistakes, weak areas, signs of improvement). Keep it under 100 words, one coherent paragraph, no bullet points, no pleasantries — just a direct description for the AI tutor to use later.`;
-    const r=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},
+    const r=await fetch('/api/chat',{method:'POST',headers:await apiHeaders(),
       body:JSON.stringify({messages:[
         {role:'system',content:'You maintain a concise, factual rolling learning profile for a student. Be specific and neutral, not encouraging or judgemental.'},
         {role:'user',content:prompt}
@@ -2908,7 +2898,7 @@ async function getActiveGradingRubric(){
   return '';
 }
 
-// Build API messages including image attachments for MiniMax
+// Build API messages including image attachments for Zhipu
 // Caps how much conversation history gets sent to the API. Without this,
 // prompt size grows unboundedly as a conversation gets longer — production
 // logs showed promptChars going from 2127 (6 msgs) to 2971 (13 msgs) within
@@ -3118,7 +3108,7 @@ function stripFakeReferencesBlock(text){
   return text;
 }
 
-// GUARDRAILS_INLINE_COPY_START — 与 /home/claude/project/lib/guardrails.js 保持逐字同步
+// GUARDRAILS_INLINE_COPY_START — 与 AI-Tutor/guardrails.js 保持逐字同步
 // ════════════════════════════════════════════════════════════
 // 统一的回复质量守卫 —— Marc's AI Tutor
 //
@@ -3385,7 +3375,7 @@ async function sendMessage(){
       try{
         const searchRes = await fetch('/api/search',{
           method:'POST',
-          headers:{'Content-Type':'application/json'},
+          headers:await apiHeaders(),
           body:JSON.stringify({messages:mmMsgs, webSearch:effectiveWebSearch, module:currentModule})
         });
         if(searchRes.ok){
@@ -3418,7 +3408,7 @@ async function sendMessage(){
     console.log('[fetch] sending to /api/chat, image:', hadImage?Math.round(lastUploadedImage.length*0.75/1024)+'KB':'none', 'searchAttempted:', searchResults?.searchAttempted, 'evidenceLogSize:', willUseEvidenceLogThisTurn?conversationEvidenceLog.length:0);
     let res=await fetch('/api/chat',{
       method:'POST',
-      headers:{'Content-Type':'application/json'},
+      headers:await apiHeaders(),
       body:JSON.stringify(payload)
     });
     // ── Automatic retry on timeout (504) ──
@@ -3437,7 +3427,7 @@ async function sendMessage(){
       try{
         res=await fetch('/api/chat',{
           method:'POST',
-          headers:{'Content-Type':'application/json'},
+          headers:await apiHeaders(),
           body:JSON.stringify(payload)
         });
       }catch(e){
@@ -3458,7 +3448,7 @@ async function sendMessage(){
     // ── Unified quality guardrail ──
     // validateReply() runs all three checks (Socratic-violation, fabricated-
     // citation, answer-machine) in one pass and returns which ones fired —
-    // see lib/guardrails.js for the full rationale and the production
+    // see AI-Tutor/guardrails.js for the full rationale and the production
     // incidents each check was added after. Retry instructions differ by
     // violation type (fabrication and answer-machine are more severe than a
     // generic Socratic violation), but the retry/fallback SKELETON is now
@@ -3495,7 +3485,7 @@ async function sendMessage(){
           // from instead of nothing — a plain Socratic-violation retry never
           // needs this, since it's just asking for a shorter/better-shaped question.
           if(searchResults&&(violations.includes('fabricated_citation')||violations.includes('answer_machine'))) retryPayload.searchResults=searchResults;
-          const retryRes=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},
+          const retryRes=await fetch('/api/chat',{method:'POST',headers:await apiHeaders(),
             body:JSON.stringify(retryPayload)});
           if(retryRes.ok){
             const retryData=await retryRes.json();
@@ -3825,7 +3815,7 @@ async function loadAiQualityFlags(){
 
 // ── Auto-detected guardrail violations (ai_quality_logs) ──
 // Distinct from the student-initiated flags above: this is system-recorded
-// data from validateReply() firing in production — see lib/guardrails.js.
+// data from validateReply() firing in production — see AI-Tutor/guardrails.js.
 // Gives teachers a quantified view of failure-mode frequency instead of
 // relying on screenshots to discover problems.
 async function loadAiQualityLogs(){
@@ -4223,21 +4213,13 @@ async function loadTeacherOverview(){
     return;
   }
 
-  // Students in filtered classes
-  // Query students - try filtered first, fallback to all if empty
+  // Students in filtered classes only. Do not fall back to all students:
+  // production teacher views must stay scoped to linked/created classes.
   let {data:students,count:stuCount}=await sb.from('profiles')
     .select('id,full_name,class_id,classes(name,grade)',{count:'exact'})
     .in('class_id',filteredClassIds)
     .eq('role','student');
   console.log('[Overview] Linked class students:',stuCount, 'Classes:',filteredClassIds);
-  // Fallback: if no students found in linked classes, show all students
-  if((!students||students.length===0) && filteredClassIds.length>0){
-    const fallback=await sb.from('profiles').select('id,full_name,class_id,classes(name,grade)',{count:'exact'}).eq('role','student');
-    if(fallback.data&&fallback.data.length>0){
-      students=fallback.data; stuCount=fallback.count;
-      console.log('[Overview] Using fallback - all students:',stuCount);
-    }
-  }
   const stuIds=(students||[]).map(s=>s.id);
   const n=stuCount||0;
 
@@ -4334,7 +4316,7 @@ async function analyseWeakSpots(convs, el){
 
 Data: ${JSON.stringify(samples)}`;
 
-    const res=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},
+    const res=await fetch('/api/chat',{method:'POST',headers:await apiHeaders(),
       body:JSON.stringify({messages:[{role:'system',content:'You are an educational data analyst. Return only valid JSON arrays, no markdown, no explanation.'},{role:'user',content:prompt}]})});
     if(!res.ok) throw new Error('API error');
     const d=await res.json();
@@ -4533,7 +4515,7 @@ async function openStudentAnalysis(userId, userName, className, grade){
 Data: ${JSON.stringify(sampleMsgs)}`;
 
     try{
-      const r=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},
+      const r=await fetch('/api/chat',{method:'POST',headers:await apiHeaders(),
         body:JSON.stringify({messages:[{role:'system',content:'You are an expert educational analyst. Be specific and actionable.'},{role:'user',content:aPrompt}]})});
       const rd=await r.json();
       const analysisEl=document.getElementById('student-ai-analysis');
@@ -4597,7 +4579,7 @@ Student history: ${JSON.stringify(sampleMsgs)}`;
 
   let suggestedTitle='',suggestedPrompt='';
   try{
-    const r=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},
+    const r=await fetch('/api/chat',{method:'POST',headers:await apiHeaders(),
       body:JSON.stringify({messages:[{role:'system',content:'You are an expert teacher designing a targeted homework assignment for one student.'},{role:'user',content:aPrompt}]})});
     const rd=await r.json();
     const raw=(rd.content||'').trim();
@@ -4763,7 +4745,7 @@ Rewrite the teacher's draft into a clear, effective prompt that:
 4. Sets warm, encouraging tone for EFL students
 Return ONLY the rewritten prompt in English, no preamble.`;
   try{
-    const res=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},
+    const res=await fetch('/api/chat',{method:'POST',headers:await apiHeaders(),
       body:JSON.stringify({messages:[{role:'system',content:sys},{role:'user',content:(lang==='zh'?'请改写这段教师提示词：\n\n':'Please rewrite this teaching prompt:\n\n')+draft}]})});
     if(!res.ok) throw new Error('API '+res.status);
     const d=await res.json();
@@ -5101,7 +5083,7 @@ async function showStudentProfile(){
       ?`以下是这位学生的学习对话摘录。请用友善、鼓励的语气，分析该学生的：1）学习优势；2）需要提升的地方；3）具体的学习建议（2-3条）。用中文回答，控制在150字以内，分段清晰。数据：${JSON.stringify(samples)}`
       :`Below are excerpts from this student's learning conversations. In a friendly, encouraging tone, analyse: 1) Their strengths; 2) Areas to improve; 3) Specific study tips (2-3). Keep it under 150 words, well-structured. Data: ${JSON.stringify(samples)}`;
 
-    const r=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},
+    const r=await fetch('/api/chat',{method:'POST',headers:await apiHeaders(),
       body:JSON.stringify({messages:[{role:'system',content:'You are a friendly educational analyst giving personalised feedback to a student. Be encouraging and specific.'},{role:'user',content:prompt}]})});
     const d=await r.json();
     const el=document.getElementById('sp-ai-text');

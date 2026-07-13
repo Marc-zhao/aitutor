@@ -13,14 +13,48 @@
 // attached in `searchResults` — so this function only ever does ONE network
 // call (the Zhipu chat completion) and comfortably fits in 10s.
 
-const ZHIPU_API_KEY = 'e3dde6a442de4bb391893f85e2f4d9c2.UwUGULxW14eJ72I2';
+const ZHIPU_API_KEY = process.env.ZHIPU_API_KEY || process.env.Zhipu;
 const ZHIPU_CHAT_URL = 'https://open.bigmodel.cn/api/paas/v4/chat/completions';
+const SUPABASE_URL = process.env.SUPABASE_URL || 'https://aydeoadbsytyqrcsgzxo.supabase.co';
+const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF5ZGVvYWRic3l0eXFyY3NnenhvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc3Mjc1ODUsImV4cCI6MjA5MzMwMzU4NX0.NR_QshJ7S2rjEhy6QGgrU7_RQKwJ03t6AD8MUygZEQw';
 
 const CORS = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'POST, OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type',
+  'Access-Control-Allow-Headers': 'Content-Type, Authorization',
 };
+
+async function consumeQuota(req, limit) {
+  const authorization = req.headers.authorization || '';
+  if (!/^Bearer\s+\S+$/i.test(authorization)) {
+    return { ok: false, status: 401, error: 'Please sign in before using AI' };
+  }
+  try {
+    const response = await fetch(`${SUPABASE_URL}/rest/v1/rpc/consume_ai_quota`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': SUPABASE_ANON_KEY,
+        'Authorization': authorization,
+      },
+      body: JSON.stringify({ p_limit: limit }),
+    });
+    if (response.status === 401 || response.status === 403) {
+      return { ok: false, status: 401, error: 'Your session has expired. Please sign in again.' };
+    }
+    if (!response.ok) {
+      console.error('[ai-quota] HTTP', response.status, (await response.text()).slice(0, 200));
+      return { ok: false, status: 503, error: 'AI quota service is temporarily unavailable' };
+    }
+    const allowed = await response.json();
+    return allowed === true
+      ? { ok: true }
+      : { ok: false, status: 429, error: 'AI usage limit reached. Please try again next hour.' };
+  } catch (error) {
+    console.error('[ai-quota] Error:', error.message);
+    return { ok: false, status: 503, error: 'AI quota service is temporarily unavailable' };
+  }
+}
 
 // Builds the [SEARCH RESULTS] text block injected before the student's
 // latest message. Handles three distinct source shapes:
@@ -101,14 +135,20 @@ function buildEvidenceLogBlock(evidenceLog) {
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
+  if (!ZHIPU_API_KEY) return res.status(503).json({ error: 'AI service is not configured' });
 
   const body = req.body;
   const { messages, image, searchResults, evidenceLog, module, allKnownSources } = body || {};
-  if (!messages) return res.status(400).json({ error: 'Missing messages' });
+  if (!Array.isArray(messages) || !messages.length) return res.status(400).json({ error: 'Missing messages' });
+  if (messages.length > 24 || JSON.stringify(body).length > 6_000_000) {
+    return res.status(413).json({ error: 'Request is too large' });
+  }
+  const quota = await consumeQuota(req, 120);
+  if (!quota.ok) return res.status(quota.status).json({ error: quota.error });
 
   // Switched from glm-4-flash (free tier, 5 QPS cap) to glm-4-air (paid,
   // pay-per-token, 10-50 QPS depending on tier). Production logs showed
@@ -122,7 +162,7 @@ export default async function handler(req, res) {
   const lastUserIdx = messages.map(m => m.role).lastIndexOf('user');
 
   const flatMsgs = messages.map((m, idx) => {
-    const role = m.role === 'user' ? 'user' : 'assistant';
+    const role = m.role === 'system' ? 'system' : (m.role === 'user' ? 'user' : 'assistant');
     const text = (typeof m.content === 'string' ? m.content : '')
       .replace(/\[Image attached:[^\]]*\]\n?/g, '').trim();
 
