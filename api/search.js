@@ -40,20 +40,23 @@ const CORS = {
   'Access-Control-Allow-Headers': 'Content-Type, Authorization',
 };
 
-async function consumeQuota(req, limit) {
+async function reserveBudget(req, estimatedTokens, kind) {
   const authorization = req.headers.authorization || '';
   if (!/^Bearer\s+\S+$/i.test(authorization)) {
     return { ok: false, status: 401, error: 'Please sign in before using AI' };
   }
   try {
-    const response = await fetch(`${SUPABASE_URL}/rest/v1/rpc/consume_ai_quota`, {
+    const response = await fetch(`${SUPABASE_URL}/rest/v1/rpc/reserve_ai_budget`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'apikey': SUPABASE_ANON_KEY,
         'Authorization': authorization,
       },
-      body: JSON.stringify({ p_limit: limit }),
+      body: JSON.stringify({
+        p_estimated_tokens: estimatedTokens,
+        p_kind: kind,
+      }),
     });
     if (response.status === 401 || response.status === 403) {
       return { ok: false, status: 401, error: 'Your session has expired. Please sign in again.' };
@@ -62,14 +65,20 @@ async function consumeQuota(req, limit) {
       console.error('[ai-quota] HTTP', response.status, (await response.text()).slice(0, 200));
       return { ok: false, status: 503, error: 'AI quota service is temporarily unavailable' };
     }
-    const allowed = await response.json();
-    return allowed === true
-      ? { ok: true }
-      : { ok: false, status: 429, error: 'AI usage limit reached. Please try again next hour.' };
+    const result = await response.json();
+    if (result?.allowed) return { ok: true, budget: result };
+    return { ok: false, status: 429, error: budgetError(result?.reason) };
   } catch (error) {
     console.error('[ai-quota] Error:', error.message);
     return { ok: false, status: 503, error: 'AI quota service is temporarily unavailable' };
   }
+}
+
+function budgetError(reason) {
+  if (reason === 'hourly_limit') return '本小时 AI 检索次数已用完，请稍后再试。';
+  if (reason === 'daily_limit') return '今日 AI 学习额度已用完，明天会自动恢复。';
+  if (reason === 'global_budget') return '今日全站 AI 预算已达上限，请明天再继续。';
+  return 'AI 预算服务暂时不可用，请稍后再试。';
 }
 
 // OpenAlex's search index is effectively English-only — its ranking
@@ -294,9 +303,6 @@ export default async function handler(req, res) {
   if (messages.length > 24 || JSON.stringify(body).length > 120000) {
     return res.status(413).json({ error: 'Request is too large' });
   }
-  const quota = await consumeQuota(req, 120);
-  if (!quota.ok) return res.status(quota.status).json({ error: quota.error });
-
   const lastUserIdx = messages.map(m => m.role).lastIndexOf('user');
   const lastUserText = (typeof messages[lastUserIdx]?.content === 'string' ? messages[lastUserIdx].content : '') || '';
   // Find the most recent assistant message before this user turn, to check
@@ -312,6 +318,12 @@ export default async function handler(req, res) {
     // skip straight to the chat call without wasting a round trip's worth of time.
     return res.status(200).json({ searchAttempted: false, sources: [], sourceTier: null, sourceType: null });
   }
+
+  // Reserve the token-equivalent cost of a possible paid web-search fallback.
+  // At current public pricing, one ¥0.01 search is roughly the cost of
+  // 20,000 GLM-4-Air tokens, so this keeps the global RMB ceiling honest.
+  const budget = await reserveBudget(req, 20000, 'academic_search');
+  if (!budget.ok) return res.status(budget.status).json({ error: budget.error });
 
   const query = buildSearchQuery(messages, lastUserIdx, module);
 
